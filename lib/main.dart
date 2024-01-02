@@ -1,3 +1,4 @@
+import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todoapp/controller/cubit/cubit.dart';
@@ -20,11 +21,14 @@ class MyApp extends StatelessWidget {
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
-        title: 'Flutter Demo',
+        title: 'Todo APP',
         theme: lightTheme,
         darkTheme: darkTheme,
         // ignore: prefer_const_constructors
-        home: HomeScreen(),
+        home: AnimatedSplashScreen(
+          splash: Image.asset('asset/images/todo.png'),
+          nextScreen: const HomeScreen(),
+        ),
       ),
     );
   }
