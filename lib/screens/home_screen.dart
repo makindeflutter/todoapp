@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todoapp/controller/cubit/cubit.dart';
 import 'package:todoapp/controller/cubit/states.dart';
 import 'package:todoapp/screens/add_task_screen.dart';
+import 'package:todoapp/screens/update_screen.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -24,37 +25,51 @@ class HomeScreen extends StatelessWidget {
           body: ListView.builder(
               itemCount: cubit.task.length,
               itemBuilder: (BuildContext context, int index) {
-                return Card(
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              cubit.task[index]['title'],
-                              style: Theme.of(context).textTheme.bodyLarge,
-                            ),
-                            Text(
-                              cubit.task[index]['time'],
-                              style: Theme.of(context).textTheme.bodyMedium,
-                            ),
-                            IconButton(
-                                onPressed: () {
-                                  cubit.deleteDatabase(
-                                      id: cubit.task[index]['id']);
-                                },
-                                icon: const Icon(Icons.delete))
-                          ],
-                        ),
-                        Text(
-                          cubit.task[index]['description'],
-                          style: Theme.of(context).textTheme.headlineSmall,
-                        )
-                      ],
+                return InkWell(
+                  onTap: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (BuildContext context) {
+                      return UpdateTaskScreen(
+                        id: cubit.task[index]['id'],
+                        title: cubit.task[index]['title'],
+                        date: cubit.task[index]['date'],
+                        time: cubit.task[index]['time'],
+                        des: cubit.task[index]['description'],
+                      );
+                    }));
+                  },
+                  child: Card(
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                cubit.task[index]['title'],
+                                style: Theme.of(context).textTheme.bodyLarge,
+                              ),
+                              Text(
+                                cubit.task[index]['time'],
+                                style: Theme.of(context).textTheme.bodyMedium,
+                              ),
+                              IconButton(
+                                  onPressed: () {
+                                    cubit.deleteDatabase(
+                                        id: cubit.task[index]['id']);
+                                  },
+                                  icon: const Icon(Icons.delete))
+                            ],
+                          ),
+                          Text(
+                            cubit.task[index]['description'],
+                            style: Theme.of(context).textTheme.headlineSmall,
+                          )
+                        ],
+                      ),
                     ),
                   ),
                 );

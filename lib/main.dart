@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todoapp/controller/cubit/cubit.dart';
 import 'package:todoapp/screens/home_screen.dart';
 import 'package:todoapp/shared/styles/themes.dart';
+import 'package:page_transition/page_transition.dart';
 
 void main() {
   runApp(const MyApp());
@@ -26,8 +27,18 @@ class MyApp extends StatelessWidget {
         darkTheme: darkTheme,
         // ignore: prefer_const_constructors
         home: AnimatedSplashScreen(
-          splash: Image.asset('asset/images/todo.png'),
+          splash: Image.asset(
+            'asset/images/todo.png',
+          ),
           nextScreen: const HomeScreen(),
+          splashIconSize: double.maxFinite,
+          splashTransition: SplashTransition.fadeTransition,
+          pageTransitionType: PageTransitionType.fade,
+          backgroundColor: Colors.amberAccent,
+          duration: 1000,
+          animationDuration: const Duration(
+            seconds: 10,
+          ),
         ),
       ),
     );

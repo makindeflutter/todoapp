@@ -81,7 +81,7 @@ class TodoCubit extends Cubit<TodoStates> {
               "title": title,
               "date": date,
               "time": time,
-              "descrition": description
+              "description": description
             },
             where: 'id =?',
             whereArgs: [id])

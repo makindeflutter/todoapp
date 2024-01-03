@@ -5,27 +5,47 @@ import 'package:todoapp/controller/cubit/cubit.dart';
 import 'package:todoapp/controller/cubit/states.dart';
 import 'package:todoapp/shared/styles/component.dart';
 
-class AddTaskScreen extends StatefulWidget {
-  const AddTaskScreen({super.key});
-
+class UpdateTaskScreen extends StatefulWidget {
+  final int id;
+  const UpdateTaskScreen({
+    super.key,
+    required this.id,
+    required this.title,
+    required this.date,
+    required this.time,
+    required this.des,
+  });
+  final String title;
+  final String date;
+  final String time;
+  final String des;
   @override
-  State<AddTaskScreen> createState() => _AddTaskScreenState();
+  State<UpdateTaskScreen> createState() => _UpdateTaskScreenState();
 }
 
-class _AddTaskScreenState extends State<AddTaskScreen> {
-  TextEditingController titleController = TextEditingController();
+class _UpdateTaskScreenState extends State<UpdateTaskScreen> {
+  final titleController = TextEditingController();
 
-  TextEditingController timerController = TextEditingController();
+  final timerController = TextEditingController();
 
-  TextEditingController dateController = TextEditingController();
+  final dateController = TextEditingController();
 
-  TextEditingController desController = TextEditingController();
+  final desController = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
+  @override
+  void initState() {
+    titleController.text = widget.title;
+    dateController.text = widget.date;
+    desController.text = widget.des;
+    timerController.text = widget.time;
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<TodoCubit, TodoStates>(
       listener: (context, state) {
-        if (state is InsertToTodoDatabaseState) {
+        if (state is UpdateTodoDatabaseState) {
           Navigator.pop(context);
         }
       },
@@ -133,13 +153,14 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                     minWidth: double.infinity,
                     color: Colors.amberAccent,
                     onPressed: () {
-                      cubit.insertToDatabase(
+                      cubit.updateDatabase(
                           title: titleController.text,
                           date: dateController.text,
                           time: timerController.text,
-                          description: desController.text);
+                          description: desController.text,
+                          id: widget.id);
                     },
-                    child: const Text('Add Task'),
+                    child: const Text('Update Task'),
                   )
                 ],
               ),
